@@ -61,17 +61,16 @@ function getRandomX() {
   }
   const game = new Phaser.Game(config);
 
-
+ 
 
 function  preload(){
     this.load.image('bgf', 'assets/bgf.jpg');
-    this.load.image('basket', 'assets/basket.png');
-    this.load.image('apple', 'assets/apple.png');
+    this.load.image('droneBC1', 'assets/droneBC1.png');
+    this.load.image('bitcoin', 'assets/bitcoin.png');
     this.load.image('money', 'assets/money.png');
     this.load.audio('bgMusic', 'assets/bgMusic.mp3');
     this.load.audio('coin', 'assets/coin.mp3');
-    
-
+   
 
   };
 
@@ -83,18 +82,20 @@ function  preload(){
      bgMusic.stop();
       
     this.add.image(0, 0,'bgf').setOrigin(0, 0);    
-    player = this.physics.add.image(0, sizes.height-100,'basket').setOrigin(0, 0)
+    player = this.physics.add.image(0, sizes.height-100,'droneBC1')
     player.setImmovable(true)
     player.body.allowGravity = false
     player.setCollideWorldBounds(true)
     player.setSize(player.width-player.width/4,player.height/6).setOffset(player.width/10, player.height-player.height/10)
-    target=this.physics.add.image(0,0,'apple').setOrigin(0, 0);  
+    target=this.physics.add.image(0,0,'bitcoin').setOrigin(0, 0);
+    
+   
     target.setMaxVelocity(0,speedDown)
     this.physics.add.overlap(target, player, getHit, null, this)
     cursors = this.input.keyboard.createCursorKeys()
     textScore = this.add.text(sizes.width-110, 16, 'Score: 0', { fontSize: '22px Arial', fill: '#000' });
     textTime = this.add.text(16, 16, 'Remaining Time: 00', { fontSize: '22px Arial', fill: '#000' });
-    timedEvent= this.time.delayedCall(30000, this.gameOver,[],this)
+    timedEvent= this.time.delayedCall(30000,gameOver,[],this)
     emitter= this.add.particles(0,0,'money',{
       speed:100,
       gravityY:speedDown-200,
@@ -103,7 +104,17 @@ function  preload(){
       emitting:false,
     });
     emitter.startFollow(player,player.width/2, player.height/2,true)
-  
+    function gameOver() {
+      this.sys.game.destroy(true);
+      if(points>=30){
+        refs.gameEndScoreSpan.textContent= points
+        refs.gameWinLoseSpan.textContent= 'Win'
+      }else{
+        refs.gameEndScoreSpan.textContent= points
+        refs.gameWinLoseSpan.textContent= 'Lost!🙄 Don\'t forget to donate👇'
+      }
+      refs.gameEndDiv.style.display ='flex'
+    }
   
   }
  
@@ -131,14 +142,3 @@ refs.gameStartBtn.addEventListener('click',()=>{
   game.scene.resume('scene-game');
 })
 
-// function gameOver() {
-//   sys.game.destroy(true)
-//    if(points>=30){
-//      refs.gameEndScoreSpan.textContent= points
-//      refs.gameWinLoseSpan.textContent= 'Win'
-//    }else{
-//      refs.gameEndScoreSpan.textContent= points
-//      refs.gameWinLoseSpan.textContent= 'Lost!🙄 Don\'t forget to donate👇'
-//    }
-//    refs.gameEndDiv.style.display ='flex'
-//  }

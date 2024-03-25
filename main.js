@@ -4,15 +4,30 @@ import Phaser from 'phaser'
 let player;
 let cursors;
 let target;
+let textScore;
+let textTime;
+let timedEvent;
+let remainingTime;
+let coinMusic;
+let bgMusic;
+let money;
+let emitter;
 let points = 0;
-const speedDown = 300;
+const speedDown = 500;
 const playerSpeed = speedDown + 50;
-console.log('playerSpeed: ', playerSpeed);
+
 const sizes={
   width:500,
   height:500
 }
 
+const refs={
+  gameStartDiv:document.querySelector('#gameStarDiv'),
+  gameStartBtn:document.querySelector('#gameStartBtn'),
+  gameEndDiv:document.querySelector('#gameEndDiv'),
+  gameWinLoseSpan:document.querySelector('#gameWinLoseSpan'),
+  gameEndScoreSpan:document.querySelector('#gameEndScoreSpan'),
+}
 
 const config={
   type: Phaser.WEBGL,
@@ -34,42 +49,67 @@ const config={
 }
 
 function getRandomX() {
-  return Math.floor(Math.random()*480);
+  return Math.floor(Math.random()*600);
 }
   function getHit() {
+    coinMusic.play();
     target.setY(0);
     target.setX(getRandomX());
     points++;
+    textScore.setText(`Score:${points}`)
+    emitter.start()
   }
+  const game = new Phaser.Game(config);
 
-const game = new Phaser.Game(config);
 
 
-// class GameScene extends Phaser.Scene{
-//   constructor(){
-//     super('scene-game')
-//   }
 function  preload(){
-    this.load.image('bg', 'assets/bg.png')
-    this.load.image('basket', 'assets/basket.png')
-    this.load.image('apple', 'assets/apple.png')
+    this.load.image('bgf', 'assets/bgf.jpg');
+    this.load.image('basket', 'assets/basket.png');
+    this.load.image('apple', 'assets/apple.png');
+    this.load.image('money', 'assets/money.png');
+    this.load.audio('bgMusic', 'assets/bgMusic.mp3');
+    this.load.audio('coin', 'assets/coin.mp3');
+    
+
+
   };
 
   function  create(){
-   
-    this.add.image(0, 0,'bg').setOrigin(0, 0)     
+    this.scene.pause('scene-game')
+    coinMusic=this.sound.add('coin');
+    bgMusic=this.sound.add('bgMusic');
+    bgMusic.play();
+     bgMusic.stop();
+      
+    this.add.image(0, 0,'bgf').setOrigin(0, 0);    
     player = this.physics.add.image(0, sizes.height-100,'basket').setOrigin(0, 0)
     player.setImmovable(true)
     player.body.allowGravity = false
-    // player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-    target=this.physics.add.image(0,0,'apple').setOrigin(0, 0)   
-    target.setMaxVelocity(0,speedDown) 
+    player.setCollideWorldBounds(true)
+    player.setSize(player.width-player.width/4,player.height/6).setOffset(player.width/10, player.height-player.height/10)
+    target=this.physics.add.image(0,0,'apple').setOrigin(0, 0);  
+    target.setMaxVelocity(0,speedDown)
     this.physics.add.overlap(target, player, getHit, null, this)
-    cursors = this.input.keyboard.createCursorKeys();
-  };
+    cursors = this.input.keyboard.createCursorKeys()
+    textScore = this.add.text(sizes.width-110, 16, 'Score: 0', { fontSize: '22px Arial', fill: '#000' });
+    textTime = this.add.text(16, 16, 'Remaining Time: 00', { fontSize: '22px Arial', fill: '#000' });
+    timedEvent= this.time.delayedCall(30000, this.gameOver,[],this)
+    emitter= this.add.particles(0,0,'money',{
+      speed:100,
+      gravityY:speedDown-200,
+      scale:0.04,
+      duration:100,
+      emitting:false,
+    });
+    emitter.startFollow(player,player.width/2, player.height/2,true)
+  
+  
+  }
  
   function  update(){
+    remainingTime = timedEvent.getRemainingSeconds();
+    textTime.setText(`Remaining Time: ${Math.round(remainingTime).toString()}`)
     if(target.y>=sizes.height){
       target.setY(0);
       target.setX(getRandomX());
@@ -86,3 +126,19 @@ if (cursors.left.isDown) {
 
  };
 
+refs.gameStartBtn.addEventListener('click',()=>{
+  refs.gameStartDiv.style.display='none';
+  game.scene.resume('scene-game');
+})
+
+// function gameOver() {
+//   sys.game.destroy(true)
+//    if(points>=30){
+//      refs.gameEndScoreSpan.textContent= points
+//      refs.gameWinLoseSpan.textContent= 'Win'
+//    }else{
+//      refs.gameEndScoreSpan.textContent= points
+//      refs.gameWinLoseSpan.textContent= 'Lost!🙄 Don\'t forget to donate👇'
+//    }
+//    refs.gameEndDiv.style.display ='flex'
+//  }

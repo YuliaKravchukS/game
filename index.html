@@ -4,11 +4,36 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Apple Catcher</title>
+    <title>Donate drones or money</title>
   </head>
   <body>
-    <header><p>Phaser Demo| Apple Catcher</p></header>
-    <main><canvas id="gameCanvas"></canvas></main>
+    <header><p>Phaser Demo | Donate drones or money</p></header>
+    <main>
+      
+        <div id="gameStarDiv" class="gameUI">
+          <h1>Donate drones or money</h1>
+          <p>You have 30 seconds to catch bitcoins</p>
+          <p>If you catch more than 30 bitcoins you win</p>
+          <p>
+            If you catch less than 30 bitcoins, you lose and send a donation
+          </p>
+          <p>lick the start button to begin</p>
+          <button id="gameStartBtn">Start</button>
+        </div>
+        <div id="gameEndDiv" class="gameUI">
+          <p>Game over</p>
+          <h1>You <span id="gameWinLoseSpan"></span></h1>
+          <h1>Final Score: <span id="gameEndScoreSpan"></span></h1>
+          <a
+            target="_blank"
+            href="https://savelife.in.ua/donate/#donate-army-card-monthly"
+            rel="noopener noreferrer"
+            >The Charity Foundation "Come Back Alive"</a
+          >
+          <p>Refresh the Page to play again</p>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+    </main>
     <footer><p>Created by Yulia 2024</p></footer>
     <script type="module" src="/main.js"></script>
   </body>

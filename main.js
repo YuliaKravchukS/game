@@ -38,7 +38,7 @@ const refs = {
 };
 console.log(refs.link);
 const config = {
-  type: Phaser.WEBGL,
+  type: Phaser.AUTO,
   width: sizes.width,
   height: sizes.height,
   canvas: gameCanvas,

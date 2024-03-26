@@ -65,9 +65,9 @@ function getRandomX() {
 
 function  preload(){
     this.load.image('bgf', 'assets/bgf.jpg');
-    this.load.image('droneBC1', 'assets/droneBC1.png');
-    this.load.image('bitcoin', 'assets/bitcoin.png');
-    this.load.image('money', 'assets/money.png');
+    this.load.image('jar', 'assets/jar.png');
+    this.load.image('bit1', 'assets/bit1.png');
+    this.load.image('moneyb', 'assets/moneyb.png');
     this.load.audio('bgMusic', 'assets/bgMusic.mp3');
     this.load.audio('coin', 'assets/coin.mp3');
    
@@ -82,12 +82,12 @@ function  preload(){
      bgMusic.stop();
       
     this.add.image(0, 0,'bgf').setOrigin(0, 0);    
-    player = this.physics.add.image(0, sizes.height-100,'droneBC1')
+    player = this.physics.add.image(0, sizes.height-100,'jar')
     player.setImmovable(true)
     player.body.allowGravity = false
     player.setCollideWorldBounds(true)
     player.setSize(player.width-player.width/4,player.height/6).setOffset(player.width/10, player.height-player.height/10)
-    target=this.physics.add.image(0,0,'bitcoin').setOrigin(0, 0);
+    target=this.physics.add.image(0,0,'bit1').setOrigin(0, 0);
     
    
     target.setMaxVelocity(0,speedDown)
@@ -96,14 +96,14 @@ function  preload(){
     textScore = this.add.text(sizes.width-110, 16, 'Score: 0', { fontSize: '22px Arial', fill: '#000' });
     textTime = this.add.text(16, 16, 'Remaining Time: 00', { fontSize: '22px Arial', fill: '#000' });
     timedEvent= this.time.delayedCall(30000,gameOver,[],this)
-    emitter= this.add.particles(0,0,'money',{
+    emitter= this.add.particles(0,0,'moneyb',{
       speed:100,
-      gravityY:speedDown-200,
+      gravityY:speedDown-180,
       scale:0.04,
       duration:100,
       emitting:false,
     });
-    emitter.startFollow(player,player.width/2, player.height/2,true)
+    emitter.startFollow(player,player.width/6, player.height/6,true)
     function gameOver() {
       this.sys.game.destroy(true);
       if(points>=30){

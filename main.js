@@ -64,7 +64,7 @@ function  preload(){
     this.load.image('jar', 'assets/jar.png');
     this.load.image('bit1', 'assets/bit1.png');
     this.load.image('moneyd', 'assets/moneyd.png');
-    this.load.audio('bgMusic', 'assets/bgMusic.mp3');
+    this.load.audio('bgDMusic', 'assets/bgDMusic.mp3');
     this.load.audio('coin', 'assets/coin.mp3');
    
 
@@ -73,7 +73,7 @@ function  preload(){
   function  create(){
     this.scene.pause('scene-game')
     coinMusic=this.sound.add('coin');
-    bgMusic=this.sound.add('bgMusic');
+    bgMusic=this.sound.add('bgDMusic');
     bgMusic.play();
     //  bgMusic.stop();
       

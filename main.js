@@ -1,4 +1,3 @@
-'use strict'
 
 import "./style.css";
 import Phaser from "phaser";
@@ -38,7 +37,7 @@ const refs = {
 };
 console.log(refs.link);
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   width: sizes.width,
   height: sizes.height,
   canvas: gameCanvas,

@@ -7,34 +7,48 @@
     <title>Donate drones or money</title>
   </head>
   <body>
-    <header><p>Phaser Demo | Donate drones or money</p></header>
+    <header><p class="text">Phaser Demo | Donate drones or money</p></header>
     <main>
       
         <div id="gameStarDiv" class="gameUI">
           <h1>Donate drones or money</h1>
           <p>You have 30 seconds to catch bitcoins</p>
-          <p>If you catch more than 20 bitcoins you win</p>
+          <p>If you catch more than 30 bitcoins you win.</p>
           <p>
-            If you catch less than 20 bitcoins, you lose and send a donation
+            If you catch less than 30 bitcoins, you lose and send a donation.
           </p>
-          <p>lick the start button to begin</p>
+          <p>Сlick the start button to begin</p>
+          
+   
+          
           <button id="gameStartBtn">Start</button>
         </div>
         <div id="gameEndDiv" class="gameUI">
-          <p>Game over</p>
-          <h1>You <span id="gameWinLoseSpan"></span></h1>
-          <h1>Final Score: <span id="gameEndScoreSpan"></span></h1>
-          <a
+          <img src="./assets/banerdronmin.png" alt="Baner Thank you" width="400" height="220">
+          <p>Game over. Final Score: <span id="gameEndScoreSpan"></span></p>
+          <p id="gameResult">You <span id="gameWinLoseSpan"></span></p>
+          <p id="gameSpam"></p>
+          <div id="link">
+            <a
             target="_blank"
             href="https://savelife.in.ua/donate/#donate-army-card-monthly"
             rel="noopener noreferrer"
             >The Charity Foundation "Come Back Alive"</a
           >
+          <br>  
+          <a
+          target="_blank"
+          href="https://t.me/donatlacheny"
+          rel="noopener noreferrer"
+          >"Donat Lacheny"</a
+        >
+       </div>
           <p>Refresh the Page to play again</p>
+          <button id="gameRestartBtn">Restart</button>
         </div>
         <canvas id="gameCanvas"></canvas>
     </main>
-    <footer><p>Created by Yulia 2024</p></footer>
+    <footer><p class="text">Created by Yulia 2024</p></footer>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

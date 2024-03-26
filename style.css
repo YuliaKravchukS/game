@@ -1,8 +1,10 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --dkClr: #181818;
-  --liClr: whitesmoke;
-  --accClr: #0d0d35;
+  --liClr:#95ff00;
+  --accClr: #0D0DA4;
+  --link: aqua;
+  --textClr:
 }
 
 * {
@@ -18,7 +20,8 @@ body {
 
 body {
   background-color: var(--dkClr);
-  color: var(--liClr);
+  color:var(--liClr);
+
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -30,13 +33,48 @@ footer {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  
 }
-
+.text{
+  color: var(--liClr);
+}
 main {
   flex: 1;
   display: flex;
 }
+h1{
+  font-size: 32px;
+  
+}
+p {
+  color: #1cec00;
+}
+.result{
+  font-weight: 700;
+  font-size: 24px;
+  color: #00feb6;
+  }
+.resultWin{
+  font-weight: 700;
+  font-size: 24px;
+  color: #00feb6;
+  animation: growText 3s ease-in-out infinite alternate; 
+}
+@keyframes growText {
+    0% {
+        transform: scale(1); 
+    }
+    50% {
+        transform: scale(1.2); 
+    }
+    100% {
+        transform: scale(1); 
+    }
+}
 
+#gameSpam{
+  font-size: 16px;
+}
 #gameCanvas {
   border: 1px solid red;
   position: absolute;
@@ -70,24 +108,42 @@ main {
 #gameEndDiv {
   display: none;
 }
+#link{
+  display: none;
+  
+}
+#link a{
+  color: #fffb01;
+  font-size: 12px;
+}
+#link a:hover,
+#link a:focus{
+color:  var(--link);
+}
 
-#gameStartBtn{
-  display: inline-block;
+#gameStartBtn,
+#gameRestartBtn{
+  display: block;
   width: 100px;
   padding:8px 15px;
   margin: 20px 0;
   text-align: center;
   font-family: inherit;
   border-radius: 10px;;
+  border: 0.5px solid var(--liClr);
+  cursor:pointer;
 }
 
 #gameStartBtn p{
   margin-top: 0;
 }
 
-#gameStartBtn:hover{
+#gameStartBtn:hover,
+#gameRestartBtn:hover,
+#gameStartBtn:focus,
+#gameRestartBtn:focus{
   background-color: var(--dkClr);
   border: 0.5px solid var(--liClr);
   color: var(--liClr);
-  cursor:pointer;
+ 
 } 

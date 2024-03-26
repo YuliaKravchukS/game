@@ -1,6 +1,6 @@
 
 import "./style.css";
-import Phaser from "phaser";
+import * as Phaser from "phaser";
 
 let player;
 let cursors;

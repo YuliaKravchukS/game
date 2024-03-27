@@ -59,7 +59,7 @@
           >
         </div>
         <p>Refresh the Page to play again</p>
-        <button id="gameRestartBtn">Restart</button>
+        <!-- <button id="gameRestartBtn">Restart</button> -->
       </div>
     </main>
     <footer><p class="text">Created by Yulia 2024</p></footer>
@@ -122,7 +122,7 @@ class GameScene extends Phaser.Scene {
     this.bombMusic = this.sound.add("bomb");
     this.bgMusic = this.sound.add("bgDMusic");
     this.bgMusic.play();
-    //  bgMusic.stop();
+    this.bgMusic.stop();
 
     this.add.image(0, 0, "bgt").setOrigin(0, 0);
     this.player = this.physics.add.image(0, sizes.height, "jar");
@@ -256,15 +256,22 @@ refs.gameStartBtn.addEventListener("click", () => {
 });
 
 refs.gameRestartBtn.addEventListener("click", () => {
-  refs.gameStartDiv.style.display = "none";
-  refs.gameEndDiv.style.display = "none";
-  game.destroy();
-  this.points = 0;
-  const newGame = new Phaser.Game(config);
+
+  // game.destroy();
+  // game.scene.stop("scene-game");
+  
+  // game.scene.getScene("scene-game").points = 0; 
+  // const newGame = new Phaser.Game(config);
+  // newGame.play();
+  gameStartDiv.style.display = "none";
+  game.scene.getScene("scene-game").points = 0; 
+  
+ 
+   
+  
+
 });
 
-
-
-    </script>
+   </script>
   </body>
 </html>

@@ -207,7 +207,7 @@ refs.gameRestartBtn.addEventListener("click", () => {
   refs.gameEndDiv.style.display = "none";
   game.destroy();
   points = 0;
-  const newGame = new Phaser.Game(config);
+  // const newGame = new Phaser.Game(config);
 });
 // const config = {
 //   type: Phaser.WEBGL,

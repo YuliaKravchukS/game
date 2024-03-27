@@ -64,11 +64,13 @@
     </main>
     <footer><p class="text">Created by Yulia 2024</p></footer>
     <script>
+
+
       const speedDown = 500;
 
 const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight-140,
+  width: 500,
+  height: 450,
 };
 
 const refs = {
@@ -246,6 +248,7 @@ const config = {
   },
   scene: [GameScene],
 };
+const game = new Phaser.Game(config);
 
 refs.gameStartBtn.addEventListener("click", () => {
   refs.gameStartDiv.style.display = "none";
@@ -256,11 +259,11 @@ refs.gameRestartBtn.addEventListener("click", () => {
   refs.gameStartDiv.style.display = "none";
   refs.gameEndDiv.style.display = "none";
   game.destroy();
-  points = 0;
+  this.points = 0;
   const newGame = new Phaser.Game(config);
 });
 
-const game = new Phaser.Game(config);
+
 
     </script>
   </body>

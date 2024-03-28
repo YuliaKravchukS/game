@@ -111,7 +111,7 @@
           this.load.image("moneyd", "assets/moneyd.png");
           this.load.image("bomb", "assets/bomb.png");
           // this.load.audio("bgDMusic", "assets/bgDMusic.mp3");
-          this.load.audio("bfDSound", "assets/bfDSound.mp3");
+          this.load.audio("bfDsound", "assets/bfDsound.mp3");
           this.load.audio("coin", "assets/coin.mp3");
           this.load.audio("bomb", "assets/bomb.wav");
         }
@@ -252,7 +252,7 @@
         }
         startMusic() {
     if (!this.musicStarted) {
-      this.bfDSound.play();
+      this.bgMusic.play();
       this.musicStarted = true;
     }
   }

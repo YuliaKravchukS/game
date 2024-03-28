@@ -70,7 +70,7 @@ class GameScene extends Phaser.Scene {
     this.bombMusic = this.sound.add("bomb");
     this.bgMusic = this.sound.add("bgDMusic");
     this.bgMusic.play();
-    //  bgMusic.stop();
+     bgMusic.stop();
 
     this.add.image(0, 0, "bgt").setOrigin(0, 0);
     this.player = this.physics.add.image(0, sizes.height, "jar");

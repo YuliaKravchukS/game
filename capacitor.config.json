@@ -1,8 +1,0 @@
-{
-  "appId": "com.yuliakravchuks.game",
-  "appName": "gameDrone",
-  "webDir": "dist",
-  "server": {
-    "androidScheme": "https"
-  }
-}

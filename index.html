@@ -70,7 +70,6 @@
         width: "",
         height: "",
       };
-
       let mediaQuery = window.matchMedia("(max-width: 600px)");
 
       function handleMatches(event) {
@@ -79,11 +78,8 @@
           sizes.height = 300;
         } else {
           sizes.width = 500;
-
           sizes.height = 450;
         }
-        console.log("sizes.width: ", sizes.width);
-        console.log("sizes.height : ", sizes.height);
       }
       mediaQuery.addListener(handleMatches);
       handleMatches(mediaQuery);
@@ -120,7 +116,7 @@
         }
 
         preload() {
-          this.load.image("bgt", "assets/bgt.png");
+          // this.load.image("bgt", "assets/bgt.png");
           this.load.image("jar", "assets/jar.png");
           this.load.image("bit1", "assets/bit1.png");
           this.load.image("moneyd", "assets/moneyd.png");
@@ -129,6 +125,11 @@
           this.load.audio("bfDsound", "assets/bfDsound.mp3");
           this.load.audio("coin", "assets/coin.mp3");
           this.load.audio("bomb", "assets/bomb.wav");
+          if (mediaQuery.matches) {
+            this.load.image("bgt", "assets/small-bgt.jpg");
+          } else {
+            this.load.image("bgt", "assets/bgt.png");
+          }
         }
 
         create() {
@@ -164,12 +165,12 @@
             this
           );
           this.cursors = this.input.keyboard.createCursorKeys();
-          this.textScore = this.add.text(sizes.width - 110, 16, "Score: 0", {
-            fontSize: "22px Arial",
+          this.textScore = this.add.text(sizes.width - 80, 16, "Score: 0", {
+            fontSize: "18px Arial",
             fill: "#000",
           });
           this.textTime = this.add.text(16, 16, "Remaining Time: 00", {
-            fontSize: "22px Arial",
+            fontSize: "18px Arial",
             fill: "#000",
           });
           this.timedEvent = this.time.delayedCall(

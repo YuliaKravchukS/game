@@ -229,14 +229,10 @@
           if (mediaQuery.matches) {
             this.input.on(
               "pointerdown",
-              function (pointer) {
-                // Коли відбувається натискання на екран
-                // Перевіряємо, яка половина екрану була натиснута
+              (pointer) => {
                 if (pointer.x < sizes.width / 2) {
-                  // Якщо ліва половина екрану, рухаємо гравця вліво
                   this.player.setVelocityX(-this.playerSpeed);
                 } else {
-                  // Якщо права половина екрану, рухаємо гравця вправо
                   this.player.setVelocityX(this.playerSpeed);
                 }
               },
@@ -245,10 +241,8 @@
 
             this.input.on(
               "pointermove",
-              function (pointer) {
-                // Під час переміщення по екрану перевіряємо, чи було відпущення кнопки
+              (pointer) => {
                 if (pointer.isUp) {
-                  // Якщо кнопка була відпущена, зупиняємо рух гравця
                   this.player.setVelocityX(0);
                 }
               },

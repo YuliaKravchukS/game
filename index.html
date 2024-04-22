@@ -291,6 +291,7 @@
       //game.bgMusic.stop();
 
       refs.gameStartBtn.addEventListener("click", onStartClick);
+      refs.gameStartBtn.addEventListener("touchstart", onStartClick);
       function onStartClick() {
         refs.gameStartDiv.style.display = "none";
         game.scene.resume("scene-game");

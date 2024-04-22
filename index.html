@@ -70,7 +70,6 @@
         width: "",
         height: "",
       };
-
       let mediaQuery = window.matchMedia("(max-width: 600px)");
 
       function handleMatches(event) {
@@ -79,11 +78,8 @@
           sizes.height = 300;
         } else {
           sizes.width = 500;
-
           sizes.height = 450;
         }
-        console.log("sizes.width: ", sizes.width);
-        console.log("sizes.height : ", sizes.height);
       }
       mediaQuery.addListener(handleMatches);
       handleMatches(mediaQuery);
@@ -120,7 +116,7 @@
         }
 
         preload() {
-          this.load.image("bgt", "assets/bgt.png");
+          // this.load.image("bgt", "assets/bgt.png");
           this.load.image("jar", "assets/jar.png");
           this.load.image("bit1", "assets/bit1.png");
           this.load.image("moneyd", "assets/moneyd.png");
@@ -129,6 +125,11 @@
           this.load.audio("bfDsound", "assets/bfDsound.mp3");
           this.load.audio("coin", "assets/coin.mp3");
           this.load.audio("bomb", "assets/bomb.wav");
+          if (mediaQuery.matches) {
+            this.load.image("bgt", "assets/small-bgt.jpg");
+          } else {
+            this.load.image("bgt", "assets/bgt.png");
+          }
         }
 
         create() {
@@ -163,13 +164,19 @@
             null,
             this
           );
-          this.cursors = this.input.keyboard.createCursorKeys();
-          this.textScore = this.add.text(sizes.width - 110, 16, "Score: 0", {
-            fontSize: "22px Arial",
+          if (mediaQuery.matches) {
+            this.cursors = this.input.addPointer();
+          } else {
+            this.cursors = this.input.keyboard.createCursorKeys();
+          }
+          // this.cursors = this.input.keyboard.createCursorKeys();
+
+          this.textScore = this.add.text(sizes.width - 80, 16, "Score: 0", {
+            fontSize: "18px Arial",
             fill: "#000",
           });
           this.textTime = this.add.text(16, 16, "Remaining Time: 00", {
-            fontSize: "22px Arial",
+            fontSize: "18px Arial",
             fill: "#000",
           });
           this.timedEvent = this.time.delayedCall(
@@ -219,13 +226,42 @@
             this.bomb.setX(this.getRandomX(600));
           }
           this.hitBombOccurred = false;
+          if (mediaQuery.matches) {
+            this.input.on(
+              "pointerdown",
+              function (pointer) {
+                // Коли відбувається натискання на екран
+                // Перевіряємо, яка половина екрану була натиснута
+                if (pointer.x < sizes.width / 2) {
+                  // Якщо ліва половина екрану, рухаємо гравця вліво
+                  this.player.setVelocityX(-this.playerSpeed);
+                } else {
+                  // Якщо права половина екрану, рухаємо гравця вправо
+                  this.player.setVelocityX(this.playerSpeed);
+                }
+              },
+              this
+            );
 
-          if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-this.playerSpeed);
-          } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(this.playerSpeed);
+            this.input.on(
+              "pointermove",
+              function (pointer) {
+                // Під час переміщення по екрану перевіряємо, чи було відпущення кнопки
+                if (pointer.isUp) {
+                  // Якщо кнопка була відпущена, зупиняємо рух гравця
+                  this.player.setVelocityX(0);
+                }
+              },
+              this
+            );
           } else {
-            this.player.setVelocityX(0);
+            if (this.cursors.left.isDown) {
+              this.player.setVelocityX(-this.playerSpeed);
+            } else if (this.cursors.right.isDown) {
+              this.player.setVelocityX(this.playerSpeed);
+            } else {
+              this.player.setVelocityX(0);
+            }
           }
         }
         getRandomX(x) {
@@ -291,7 +327,9 @@
       //game.bgMusic.stop();
 
       refs.gameStartBtn.addEventListener("click", onStartClick);
-      refs.gameStartBtn.addEventListener("touchstart", onStartClick);
+      refs.gameStartBtn.addEventListener("touchstart", onStartClick, {
+        passive: true,
+      });
       function onStartClick() {
         refs.gameStartDiv.style.display = "none";
         game.scene.resume("scene-game");

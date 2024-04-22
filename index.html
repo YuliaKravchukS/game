@@ -66,12 +66,27 @@
 
     <script>
       const speedDown = 500;
-
-      const sizes = {
-        width: 500,
-        height: 450,
+      let sizes = {
+        width: "",
+        height: "",
       };
 
+      let mediaQuery = window.matchMedia("(max-width: 600px)");
+
+      function handleMatches(event) {
+        if (event.matches) {
+          sizes.width = 300;
+          sizes.height = 300;
+        } else {
+          sizes.width = 500;
+
+          sizes.height = 450;
+        }
+        console.log("sizes.width: ", sizes.width);
+        console.log("sizes.height : ", sizes.height);
+      }
+      mediaQuery.addListener(handleMatches);
+      handleMatches(mediaQuery);
       const refs = {
         gameStartDiv: document.querySelector("#gameStarDiv"),
         gameStartBtn: document.querySelector("#gameStartBtn"),
@@ -83,7 +98,7 @@
         link: document.querySelector("#link"),
         gameResult: document.querySelector("#gameResult"),
       };
-      
+
       class GameScene extends Phaser.Scene {
         constructor() {
           super("scene-game");
@@ -117,7 +132,6 @@
         }
 
         create() {
-         
           this.scene.pause("scene-game");
           this.coinMusic = this.sound.add("coin");
           this.bombMusic = this.sound.add("bomb");
@@ -159,7 +173,7 @@
             fill: "#000",
           });
           this.timedEvent = this.time.delayedCall(
-           60000,
+            60000,
             this.gameOver,
             [],
             this
@@ -251,11 +265,11 @@
           refs.link.style.display = "block";
         }
         startMusic() {
-    if (!this.musicStarted) {
-      this.bgMusic.play();
-      this.musicStarted = true;
-    }
-  }
+          if (!this.musicStarted) {
+            this.bgMusic.play();
+            this.musicStarted = true;
+          }
+        }
       }
 
       const config = {
@@ -271,27 +285,22 @@
           },
         },
         scene: [GameScene],
-        
       };
       const game = new Phaser.Game(config);
-      
 
       //game.bgMusic.stop();
- 
+
       refs.gameStartBtn.addEventListener("click", onStartClick);
- function onStartClick() {
+      function onStartClick() {
         refs.gameStartDiv.style.display = "none";
         game.scene.resume("scene-game");
         game.scene.getScene("scene-game").startMusic();
- }
-   
+      }
 
       refs.gameRestartBtn.addEventListener("click", () => {
-        refs.gameEndDiv.style.display = "none"; 
+        refs.gameEndDiv.style.display = "none";
         location.reload();
       });
-
-      
     </script>
   </body>
 </html>

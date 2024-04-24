@@ -71,11 +71,14 @@
         height: "",
       };
       let mediaQuery = window.matchMedia("(max-width: 600px)");
+      const screenWidth = window.screen.width;
+      const screenHeight = window.screen.height;
+      const orientation = screenWidth > screenHeight ? "landscape" : "portrait";
 
       function handleMatches(event) {
-        if (event.matches) {
-          sizes.width = 300;
-          sizes.height = 300;
+        if (event.matches || orientation === "landscape") {
+          sizes.width = innerWidth - 50;
+          sizes.height = innerHeight - 150;
         } else {
           sizes.width = 500;
           sizes.height = 450;
@@ -125,8 +128,8 @@
           this.load.audio("bfDsound", "assets/bfDsound.mp3");
           this.load.audio("coin", "assets/coin.mp3");
           this.load.audio("bomb", "assets/bomb.wav");
-          if (mediaQuery.matches) {
-            this.load.image("bgt", "assets/small-bgt.jpg");
+          if (mediaQuery.matches || orientation === "landscape") {
+            this.load.image("bgt", "assets/small-bg.jpg");
           } else {
             this.load.image("bgt", "assets/bgt.png");
           }
@@ -226,14 +229,24 @@
             this.bomb.setX(this.getRandomX(600));
           }
           this.hitBombOccurred = false;
+          let isTouchingPlayer = false;
+
+          isTouchingPlayer = (pointer) => {
+            return (
+              pointer.x >= this.player.x &&
+              pointer.x <= this.player.x + this.player.width &&
+              pointer.y >= this.player.y &&
+              pointer.y <= this.player.y + this.player.height
+            );
+          };
+
           if (mediaQuery.matches) {
+            let isPlayerTouched = false;
             this.input.on(
               "pointerdown",
               (pointer) => {
-                if (pointer.x < sizes.width / 2) {
-                  this.player.setVelocityX(-this.playerSpeed);
-                } else {
-                  this.player.setVelocityX(this.playerSpeed);
+                if (isTouchingPlayer(pointer)) {
+                  isPlayerTouched = true;
                 }
               },
               this
@@ -242,9 +255,19 @@
             this.input.on(
               "pointermove",
               (pointer) => {
-                if (pointer.isUp) {
-                  this.player.setVelocityX(0);
+                if (isPlayerTouched) {
+                  const velocityX = pointer.x - this.player.x; // Визначаємо різницю між позицією вказівника та позицією гравця
+                  this.player.setVelocityX(velocityX);
                 }
+              },
+              this
+            );
+
+            this.input.on(
+              "pointerup",
+              () => {
+                isPlayerTouched = false;
+                this.player.setVelocityX(0); // При зупинці руху вказівника скидаємо швидкість гравця
               },
               this
             );

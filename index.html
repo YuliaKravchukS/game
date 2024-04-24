@@ -75,8 +75,8 @@
       const screenHeight = window.screen.height;
       const orientation = screenWidth > screenHeight ? "landscape" : "portrait";
 
-      function handleMatches(event) {
-        if (event.matches || orientation === "landscape") {
+      function handleMatches() {
+        if (window.innerWidth < 600 || orientation === "landscape") {
           sizes.width = innerWidth - 50;
           sizes.height = innerHeight - 150;
         } else {
@@ -85,7 +85,7 @@
         }
       }
       mediaQuery.addListener(handleMatches);
-      handleMatches(mediaQuery);
+      handleMatches();
       const refs = {
         gameStartDiv: document.querySelector("#gameStarDiv"),
         gameStartBtn: document.querySelector("#gameStartBtn"),
@@ -167,7 +167,7 @@
             null,
             this
           );
-          if (mediaQuery.matches) {
+          if (window.innerWidth < 600 || orientation === "landscape") {
             this.cursors = this.input.addPointer();
           } else {
             this.cursors = this.input.keyboard.createCursorKeys();
@@ -240,7 +240,7 @@
             );
           };
 
-          if (mediaQuery.matches) {
+          if (mediaQuery.matches || orientation === "landscape") {
             let isPlayerTouched = false;
             this.input.on(
               "pointerdown",
@@ -256,7 +256,7 @@
               "pointermove",
               (pointer) => {
                 if (isPlayerTouched) {
-                  const velocityX = pointer.x - this.player.x; // Визначаємо різницю між позицією вказівника та позицією гравця
+                  const velocityX = pointer.x - this.player.x + 100; // Визначаємо різницю між позицією вказівника та позицією гравця
                   this.player.setVelocityX(velocityX);
                 }
               },

@@ -78,7 +78,7 @@
       function handleMatches() {
         if (window.innerWidth < 600 || orientation === "landscape") {
           sizes.width = innerWidth - 50;
-          sizes.height = innerHeight - 150;
+          sizes.height = innerHeight - 180;
         } else {
           sizes.width = 500;
           sizes.height = 450;
@@ -240,7 +240,7 @@
             );
           };
 
-          if (mediaQuery.matches || orientation === "landscape") {
+          if (window.innerWidth < 600 || orientation === "landscape") {
             let isPlayerTouched = false;
             this.input.on(
               "pointerdown",
@@ -256,7 +256,7 @@
               "pointermove",
               (pointer) => {
                 if (isPlayerTouched) {
-                  const velocityX = pointer.x - this.player.x + 100; // Визначаємо різницю між позицією вказівника та позицією гравця
+                  const velocityX = pointer.x - this.player.x + 250; // Визначаємо різницю між позицією вказівника та позицією гравця
                   this.player.setVelocityX(velocityX);
                 }
               },

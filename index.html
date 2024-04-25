@@ -70,21 +70,28 @@
         width: "",
         height: "",
       };
-      let mediaQuery = window.matchMedia("(max-width: 600px)");
-      const screenWidth = window.screen.width;
-      const screenHeight = window.screen.height;
-      const orientation = screenWidth > screenHeight ? "landscape" : "portrait";
-
+      const mediaQueryM = window.matchMedia("(max-width: 764px)");
+      const mediaQueryT = window.matchMedia(
+        "(min-width: 765px) and (max-width: 1023px)"
+      );
+      const orientation = window.matchMedia("(orientation: landscape)").matches;
+      function isUserOnMobile() {
+        console.log(navigator.userAgent);
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
+      }
       function handleMatches() {
-        if (window.innerWidth < 600 || orientation === "landscape") {
+        if (isUserOnMobile()) {
           sizes.width = innerWidth - 50;
           sizes.height = innerHeight - 180;
         } else {
-          sizes.width = 500;
-          sizes.height = 450;
+          sizes.width = 800;
+          sizes.height = 650;
         }
       }
-      mediaQuery.addListener(handleMatches);
+      mediaQueryM.addListener(handleMatches);
+      mediaQueryT.addListener(handleMatches);
       handleMatches();
       const refs = {
         gameStartDiv: document.querySelector("#gameStarDiv"),
@@ -128,10 +135,20 @@
           this.load.audio("bfDsound", "assets/bfDsound.mp3");
           this.load.audio("coin", "assets/coin.mp3");
           this.load.audio("bomb", "assets/bomb.wav");
-          if (mediaQuery.matches || orientation === "landscape") {
+
+          // if (window.innerWidth < 800) {
+          //   this.load.image("bgt", "assets/small-bg.jpg");
+          // } else if (window.innerWidth >= 801 && window.innerHeight <= 800) {
+          //   this.load.image("bgt", "assets/small-bgt.jpg");
+          // } else {
+          //   this.load.image("bgt", "assets/bgt.png");
+          // }
+          if (isUserOnMobile() && window.innerWidth < 800) {
             this.load.image("bgt", "assets/small-bg.jpg");
+          } else if (isUserOnMobile() && window.innerWidth >= 801) {
+            this.load.image("bgt", "assets/small-bgt.jpg");
           } else {
-            this.load.image("bgt", "assets/bgt.png");
+            this.load.image("bgt", "assets/bgt.jpg");
           }
         }
 
@@ -167,11 +184,12 @@
             null,
             this
           );
-          if (window.innerWidth < 600 || orientation === "landscape") {
+          if (isUserOnMobile() || /Macintosh/i.test(navigator.userAgent)) {
             this.cursors = this.input.addPointer();
           } else {
             this.cursors = this.input.keyboard.createCursorKeys();
           }
+
           // this.cursors = this.input.keyboard.createCursorKeys();
 
           this.textScore = this.add.text(sizes.width - 80, 16, "Score: 0", {
@@ -229,35 +247,47 @@
             this.bomb.setX(this.getRandomX(600));
           }
           this.hitBombOccurred = false;
-          let isTouchingPlayer = false;
 
-          isTouchingPlayer = (pointer) => {
-            return (
-              pointer.x >= this.player.x &&
-              pointer.x <= this.player.x + this.player.width &&
-              pointer.y >= this.player.y &&
-              pointer.y <= this.player.y + this.player.height
-            );
-          };
+          // let isTouchingPlayer = false;
 
-          if (window.innerWidth < 600 || orientation === "landscape") {
-            let isPlayerTouched = false;
-            this.input.on(
-              "pointerdown",
-              (pointer) => {
-                if (isTouchingPlayer(pointer)) {
-                  isPlayerTouched = true;
-                }
-              },
-              this
-            );
+          // isTouchingPlayer = (pointer) => {
+          //   return (
+          //     pointer.x >= this.player.x &&
+          //     pointer.x <= this.player.x + this.player.width &&
+          //     pointer.y >= this.player.y &&
+          //     pointer.y <= this.player.y + this.player.height
+          //   );
+          // };
+
+          if (isUserOnMobile() || /Macintosh/i.test(navigator.userAgent)) {
+            // let isPlayerTouched = false;
+            // this.input.on(
+            //   "pointerdown",
+            //   (pointer) => {
+            //     if (isTouchingPlayer(pointer)) {
+            //       isPlayerTouched = true;
+            //     }
+            //   },
+            //   this
+            // );
 
             this.input.on(
               "pointermove",
               (pointer) => {
-                if (isPlayerTouched) {
-                  const velocityX = pointer.x - this.player.x + 250; // Визначаємо різницю між позицією вказівника та позицією гравця
-                  this.player.setVelocityX(velocityX);
+                if (
+                  this.input.activePointer.isDown &&
+                  this.input.activePointer.x < this.player.x
+                ) {
+                  // const velocityX = this.playerSpeed * -1;
+                  this.player.setVelocityX(-this.playerSpeed + 300);
+                }
+
+                if (
+                  this.input.activePointer.isDown &&
+                  this.input.activePointer.x > this.player.x
+                ) {
+                  // const velocityX = this.playerSpeed;
+                  this.player.setVelocityX(this.playerSpeed - 300);
                 }
               },
               this
@@ -266,8 +296,8 @@
             this.input.on(
               "pointerup",
               () => {
-                isPlayerTouched = false;
-                this.player.setVelocityX(0); // При зупинці руху вказівника скидаємо швидкість гравця
+                // isPlayerTouched = false;
+                this.player.setVelocityX(0);
               },
               this
             );
